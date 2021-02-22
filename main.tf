@@ -22,6 +22,7 @@ data "aws_ami" "centos" {
   }
 }
 
+
 resource "aws_instance" "web" {
   ami           = data.aws_ami.centos.id
   instance_type = var.size
@@ -31,4 +32,9 @@ resource "aws_instance" "web" {
     TTL = var.tag_ttl
     Owner = var.tag_owner
   }
+}
+
+resource "aws_eip" "web" {
+  instance = aws_instance.web.id
+  vpc      = true
 }
