@@ -26,7 +26,7 @@ data "aws_ami" "centos" {
 resource "aws_instance" "web" {
   ami           = data.aws_ami.centos.id
   instance_type = var.size
-  security_groups = ['aws_security_group.allow_tls.id']
+  security_groups = [aws_security_group.allow_tls.id]
 
   tags = {
     Name = var.tag_name
