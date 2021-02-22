@@ -26,6 +26,7 @@ data "aws_ami" "centos" {
 resource "aws_instance" "web" {
   ami           = data.aws_ami.centos.id
   instance_type = var.size
+  security_groups = ['aws_security_group.allow_tls.id']
 
   tags = {
     Name = var.tag_name
@@ -34,7 +35,25 @@ resource "aws_instance" "web" {
   }
 }
 
-resource "aws_eip" "web" {
-  instance = aws_instance.web.id
-  vpc      = true
+resource "aws_security_group" "allow_tls" {
+  name        = "allow_tls"
+  description = "Allow TLS inbound traffic"
+
+  ingress {
+    description = "TLS from VPC"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "allow_tls"
+  }
 }
