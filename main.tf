@@ -26,7 +26,7 @@ data "aws_ami" "centos" {
 resource "aws_instance" "web" {
   ami           = data.aws_ami.centos.id
   instance_type = var.size
-  security_groups = [aws_security_group.allow_tls.name]
+  security_groups = [aws_security_group.allow_ssh.name]
 
   tags = {
     Name = var.tag_name
@@ -35,15 +35,16 @@ resource "aws_instance" "web" {
   }
 }
 
-resource "aws_security_group" "allow_tls" {
-  name        = "allow_tls"
-  description = "Allow TLS inbound traffic"
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh"
+  description = "Allow SSH inbound traffic"
 
   ingress {
-    description = "TLS from VPC"
+    description = "Allow SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
