@@ -37,14 +37,20 @@ resource "aws_instance" "web" {
     TTL = var.tag_ttl
     Owner = var.tag_owner
   }
+  provisioner "file" {
+    source = "scripts/tower.sh"
+    destination = "/home/centos/tower.sh"
+
+    connection {
+    type     = "ssh"
+    user     = "centos"
+    private_key = var.ssh_key
+    host     = aws_instance.web.public_ip
+    }
+  }
   provisioner "remote-exec" {
     inline = [
-      "sudo yum install -y nano wget",
-      "sudo wget https://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-3.7.4-1.tar.gz",
-      "sudo tar -zxf ansible-tower-setup-3.7.4-1.tar.gz",
-      "sudo sed -i \"s/admin_password=''/admin_password='hashidemo'/g\" ansible-tower-setup-3.7.4-1/inventory",
-      "sudo sed -i \"s/pg_password=''/pg_password='hashidemo'/g\" ansible-tower-setup-3.7.4-1/inventory",
-      "sudo cd ansible-tower-setup-3.7.4-1 && ./setup.sh",
+      "sudo ./tower.sh",
     ]
     connection {
     type     = "ssh"
