@@ -50,6 +50,7 @@ resource "aws_instance" "web" {
   }
   provisioner "remote-exec" {
     inline = [
+      "chmod +x tower.sh",
       "sudo ./tower.sh",
     ]
     connection {
