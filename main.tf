@@ -42,8 +42,8 @@ resource "aws_instance" "web" {
       "sudo yum install -y nano wget",
       "sudo wget https://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-3.7.4-1.tar.gz",
       "sudo tar -zxf ansible-tower-setup-3.7.4-1.tar.gz",
-      "sudo sed -i "s/admin_password=''/admin_password='hashidemo'/g" ansible-tower-setup-3.7.4-1/inventory",
-      "sudo sed -i "s/pg_password=''/pg_password='hashidemo'/g" ansible-tower-setup-3.7.4-1/inventory",
+      "sudo sed -i \"s/admin_password=''/admin_password='hashidemo'/g\" ansible-tower-setup-3.7.4-1/inventory",
+      "sudo sed -i \"s/pg_password=''/pg_password='hashidemo'/g\" ansible-tower-setup-3.7.4-1/inventory",
       "sudo ./ansible-tower-setup-3.7.4-1/setup.sh",
     ]
     connection {
