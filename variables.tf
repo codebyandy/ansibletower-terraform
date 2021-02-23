@@ -16,3 +16,6 @@ variable "tower_version" {
   type = string
   default = "3.7.4-1"
 }
+varible "ssh_key" {
+  type = string
+}
