@@ -21,12 +21,16 @@ data "aws_ami" "centos" {
     values = ["ebs"]
   }
 }
-
+resource "aws_key_pair" "sshkey" {
+  key_name   = "andyjames-key"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDPPi395XKUQEke2umV92KXPWz50GPVb6Y0lYpJ7dS1iXsQFQXymJRTWm53ldK7TvC7djJrnAti7PqSd1scjArBdxtkSGrtjKUPg8KIrYGcynCWIhZpgN8L0YWZqcixgYkU+KseHYQ62KwNJ+LvE3HdW8e57h/pr53W5GJQFERd5KB4gxkugJJuCEcx1L+W5m3ZRsECbCP+MUq251A/uQxqJdOmbRP+T0TAt7+SdGMjr0I8WAljR2XeVQYxL0A/n2LuIbAfrhhNaz/qK7jn+qA/dWY2haGR9nGpxI0pO5vGiC9TNAumfViJtAPjx63pSQcmKCh4p71paShDnFWzkJ0Z6WWlW2JqU+BrqcSkx184FAG8T1q4nm745D3qIQeMLfrR9LTgtDEnGSBAfU9VPfFsPlaEkGA6bGasVbYKCYAoslxKz//MxcZPTlSvGt7OFyS7JJVoq5+PNJOM0v2Hzr80Qba3N4UMvdkPXzjeqNHWXoc2q1SA5O4c57Dyz/Yh6jM= ajames@hashicorp.com"
+}
 
 resource "aws_instance" "web" {
   ami           = data.aws_ami.centos.id
   instance_type = var.size
   security_groups = [aws_security_group.allow_ssh.name]
+  ssh_key_pair = aws_key_pair.sshkey.key_name
 
   tags = {
     Name = var.tag_name
