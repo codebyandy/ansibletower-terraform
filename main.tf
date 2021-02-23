@@ -30,7 +30,7 @@ resource "aws_instance" "web" {
   ami           = data.aws_ami.centos.id
   instance_type = var.size
   security_groups = [aws_security_group.allow_ssh.name]
-  ssh_key_pair = aws_key_pair.sshkey.key_name
+  key_name      = aws_key_pair.sshkey.key_name
 
   tags = {
     Name = var.tag_name
