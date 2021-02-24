@@ -5,7 +5,7 @@ provider "aws" {
 data "aws_ami" "centos" {
   owners      = ["679593333241"]
   most_recent = true
-  name_regex = "^CentOS.Linux.8.*x86_64.*"
+  name_regex = "CentOS.Linux.8.*x86_64.*"
   filter {
      name   = "virtualization-type"
      values = ["hvm"]
