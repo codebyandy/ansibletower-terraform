@@ -3,23 +3,13 @@ provider "aws" {
 }
 
 data "aws_ami" "centos" {
-  owners      = ["125523088429"]
+  owners      = ["679593333241"]
   most_recent = true
-
+  name_regex = "CentOS.Linux.8.*x86_64.*"
   filter {
-    name   = "name"
-    values = ["CentOS Linux 8 x86_64 *"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
+     name   = "virtualization-type"
+     values = ["hvm"]
+   }
 }
 resource "aws_key_pair" "sshkey" {
   key_name   = "andyjames-key"
